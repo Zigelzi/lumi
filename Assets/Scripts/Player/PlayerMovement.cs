@@ -12,27 +12,18 @@ public class PlayerMovement : NetworkBehaviour
     InputAction movement;
 
     #region Server
-    [Command]
-    void CmdMove(Vector3 direction)
-    {
-        if (!hasAuthority) { return; }
 
-        Vector3 movementAmount = direction * Time.deltaTime * movementSpeed;
-
-        transform.Translate(movementAmount);
-    }
 
     #endregion
 
     #region Client
-    public override void OnStartAuthority()
+    void Start()
     {
         playerInputActions = new PlayerInputActions();
         movement = playerInputActions.Player.Movement;
         movement.Enable();
     }
 
-    
     [ClientCallback]
     void OnDestroy()
     {
@@ -42,10 +33,20 @@ public class PlayerMovement : NetworkBehaviour
     [ClientCallback]
     void Update()
     {
+        HandleMovement();
+    }
+
+    void HandleMovement()
+    {
         if (!hasAuthority) { return; }
 
         Vector3 moveDirection = new Vector3(movement.ReadValue<Vector2>().x, 0, movement.ReadValue<Vector2>().y);
-        CmdMove(moveDirection);
+        Vector3 newPosition = moveDirection * Time.deltaTime * movementSpeed;
+
+        if (moveDirection.magnitude != 0)
+        {
+            transform.Translate(newPosition);
+        }
     }
     #endregion
 }
