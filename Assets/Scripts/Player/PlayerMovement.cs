@@ -7,9 +7,11 @@ using Mirror;
 public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] [Range(0, 50f)] float movementSpeed = 20f;
+    [SerializeField] [Range(0, 50f)] float maxAcceleration = 20f;
 
     PlayerInputActions playerInputActions;
     InputAction movement;
+    Rigidbody playerRb;
 
     #region Server
 
@@ -20,6 +22,8 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         playerInputActions = new PlayerInputActions();
+        playerRb = GetComponent<Rigidbody>();
+
         movement = playerInputActions.Player.Movement;
         movement.Enable();
     }
@@ -31,7 +35,7 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [ClientCallback]
-    void Update()
+    void FixedUpdate()
     {
         HandleMovement();
     }
@@ -39,14 +43,21 @@ public class PlayerMovement : NetworkBehaviour
     void HandleMovement()
     {
         if (!hasAuthority) { return; }
-
-        Vector3 moveDirection = new Vector3(movement.ReadValue<Vector2>().x, 0, movement.ReadValue<Vector2>().y);
-        Vector3 newPosition = moveDirection * Time.deltaTime * movementSpeed;
+        
+        Vector2 moveDirection = movement.ReadValue<Vector2>();
 
         if (moveDirection.magnitude != 0)
         {
-            transform.Translate(newPosition);
+            float maxVelocityChange = maxAcceleration * Time.deltaTime;
+            Vector3 playerVelocity = playerRb.velocity;
+            Vector3 desiredVelocity = moveDirection * movementSpeed;
+
+            playerVelocity.x = Mathf.MoveTowards(playerVelocity.x, desiredVelocity.x, maxVelocityChange);
+            playerVelocity.z = Mathf.MoveTowards(playerVelocity.z, desiredVelocity.y, maxVelocityChange);
+
+            playerRb.velocity = playerVelocity;
         }
     }
+
     #endregion
 }
