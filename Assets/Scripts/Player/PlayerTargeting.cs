@@ -23,6 +23,8 @@ public class PlayerTargeting : NetworkBehaviour
 
     void FaceAtMousePosition()
     {
+        if (!hasAuthority) { return; }
+
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(mouse.position.ReadValue());
 

@@ -9,6 +9,10 @@ public class PlayerCasting : NetworkBehaviour
     [SerializeField] Transform spellSpawnpoint;
     [SerializeField] GameObject spellPrefab;
     [SerializeField] float spellCastInterval = 1f;
+    [SerializeField] LayerMask groundLayer;
+
+    Camera mainCamera;
+    Mouse mouse;
 
     float previousSpellCastTime;
     PlayerInputActions playerInputActions;
@@ -16,12 +20,19 @@ public class PlayerCasting : NetworkBehaviour
 
     #region Server
     [Command]
-    void CmdCastSpell()
+    void CmdCastSpell(Vector3 castPosition)
     {
-        GameObject spellInstance = Instantiate(spellPrefab, spellSpawnpoint.position, Quaternion.identity);
+        Vector3 spellDirection = transform.position - castPosition;
+
+        Debug.Log($"Player is at: {transform.position} and spell is casted at {castPosition}");
+        Debug.Log($"Spell Direction: {spellDirection}");
+        Quaternion spellRotation = Quaternion.LookRotation(spellDirection);
+        
+        GameObject spellInstance = Instantiate(spellPrefab, spellSpawnpoint.position, spellRotation);
         NetworkServer.Spawn(spellInstance, connectionToClient);
-        Rigidbody spellRb = spellInstance.GetComponentInChildren<Rigidbody>();
-        spellRb.velocity = transform.forward * 20f;
+
+        Spell castedSpell = spellInstance.GetComponent<Spell>();
+        castedSpell.LaunchSpell(-spellDirection.normalized);
 
         previousSpellCastTime = Time.time;
     }
@@ -29,9 +40,10 @@ public class PlayerCasting : NetworkBehaviour
 
     #region Client
     [ClientCallback]
-
     void Start()
     {
+        mainCamera = Camera.main;
+        mouse = Mouse.current;
         playerInputActions = new PlayerInputActions();
         casting = playerInputActions.Player.Casting;
 
@@ -49,7 +61,16 @@ public class PlayerCasting : NetworkBehaviour
 
     void HandleSpellCast(InputAction.CallbackContext ctx)
     {
-        CmdCastSpell();
+        if (!hasAuthority) { return; }
+
+        RaycastHit hit;
+        Ray ray = mainCamera.ScreenPointToRay(mouse.position.ReadValue());
+
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+        {
+            CmdCastSpell(hit.point);
+        }
+        
     }
     #endregion
 }

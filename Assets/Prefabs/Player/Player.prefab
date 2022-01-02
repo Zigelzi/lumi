@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2942173119579534864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.75}
+  m_LocalPosition: {x: 0, y: 1, z: 1.105}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4232296479689477804}
@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 8674981283599229284}
   - component: {fileID: 6751188990545186054}
   - component: {fileID: 5335553982453953788}
+  - component: {fileID: 4015783740348344796}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -207,8 +208,27 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spellSpawnpoint: {fileID: 3888592960356125412}
-  spellPrefab: {fileID: 2023529233740683763, guid: 5ced9c1e46a0c204d85ef512c7f83cf8, type: 3}
+  spellPrefab: {fileID: 3708704091446871398, guid: a375c22607ee2824aad496ab3a6d66af, type: 3}
   spellCastInterval: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &4015783740348344796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232296479689477805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3805edab30a30044bbcc90b0d99aec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1 &4232296480255648166
 GameObject:
   m_ObjectHideFlags: 0
