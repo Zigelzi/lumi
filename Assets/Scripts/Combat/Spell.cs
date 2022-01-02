@@ -10,6 +10,11 @@ public class Spell : NetworkBehaviour
     [SerializeField] int lifetime = 3;
 
     Rigidbody spellRb;
+
+    void Start()
+    {
+        LaunchSpell();    
+    }
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -29,13 +34,12 @@ public class Spell : NetworkBehaviour
         }
     }
 
-    public void LaunchSpell(Vector3 spellDirection) 
+    public void LaunchSpell() 
     {
         spellRb = GetComponent<Rigidbody>();
         if (spellRb == null) { return; }
 
-        Debug.Log($"Launcing the spell with velocity {spellDirection * launchForce}");
-        spellRb.velocity = spellDirection * launchForce;
+        spellRb.velocity = -transform.forward * launchForce;
     }
 
     [Server]

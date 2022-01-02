@@ -8,7 +8,7 @@ public class PlayerCasting : NetworkBehaviour
 {
     [SerializeField] Transform spellSpawnpoint;
     [SerializeField] GameObject spellPrefab;
-    [SerializeField] float spellCastInterval = 1f;
+    [SerializeField] float castSpeed = 1f;
     [SerializeField] LayerMask groundLayer;
 
     Camera mainCamera;
@@ -24,17 +24,24 @@ public class PlayerCasting : NetworkBehaviour
     {
         Vector3 spellDirection = transform.position - castPosition;
 
-        Debug.Log($"Player is at: {transform.position} and spell is casted at {castPosition}");
-        Debug.Log($"Spell Direction: {spellDirection}");
         Quaternion spellRotation = Quaternion.LookRotation(spellDirection);
         
         GameObject spellInstance = Instantiate(spellPrefab, spellSpawnpoint.position, spellRotation);
         NetworkServer.Spawn(spellInstance, connectionToClient);
 
-        Spell castedSpell = spellInstance.GetComponent<Spell>();
-        castedSpell.LaunchSpell(-spellDirection.normalized);
-
         previousSpellCastTime = Time.time;
+    }
+
+    bool CanCastAgain()
+    {
+        if (Time.time > (1 / castSpeed) + previousSpellCastTime)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     #endregion
 
@@ -66,7 +73,7 @@ public class PlayerCasting : NetworkBehaviour
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(mouse.position.ReadValue());
 
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer) && CanCastAgain())
         {
             CmdCastSpell(hit.point);
         }

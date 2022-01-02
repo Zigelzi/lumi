@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6782733062011717500}
   - component: {fileID: 1849716744928958076}
   m_Layer: 0
-  m_Name: Projectile_Spehere
+  m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,5 +176,5 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   damage: 10
-  launchForce: 5
-  lifetime: 20
+  launchForce: 15
+  lifetime: 3
