@@ -100,3 +100,6 @@ MonoBehaviour:
   playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 3708704091446871398, guid: a375c22607ee2824aad496ab3a6d66af, type: 3}
+  - {fileID: 2557985174262894303, guid: 4ff5e1c22ab5c684aa8b098ef3828bfa, type: 3}
+  players: []
+  gameManagerPrefab: {fileID: -3067127529708027389, guid: 4ff5e1c22ab5c684aa8b098ef3828bfa, type: 3}
