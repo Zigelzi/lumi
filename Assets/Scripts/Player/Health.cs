@@ -4,12 +4,14 @@ using UnityEngine;
 using System;
 using Mirror;
 
-public class PlayerHealth : NetworkBehaviour
+public class Health : NetworkBehaviour
 {
     [SerializeField] int maxHealth = 100;
 
     [SyncVar(hook = nameof(ClientHandleHealthUpdate))]
     [SerializeField] int currentHealth;
+
+    public int MaxHealth { get { return maxHealth; } }
 
     public event Action ServerOnDie;
     public event Action<int, int> ClientOnHealthUpdate;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Mirror;
 
-public class PlayerCasting : NetworkBehaviour
+public class Casting : NetworkBehaviour
 {
     [SerializeField] Transform spellSpawnpoint;
     [SerializeField] GameObject spellPrefab;

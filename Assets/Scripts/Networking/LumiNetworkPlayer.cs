@@ -6,7 +6,7 @@ using Mirror;
 
 public class LumiNetworkPlayer : NetworkBehaviour
 {
-    PlayerHealth health;
+    Health health;
     string playerName;
 
     public static event Action<LumiNetworkPlayer> OnServerPlayerDefeat;
@@ -18,7 +18,7 @@ public class LumiNetworkPlayer : NetworkBehaviour
     {
         base.OnStartServer();
 
-        health = GetComponent<PlayerHealth>();
+        health = GetComponent<Health>();
 
         health.ServerOnDie += HandleServerOnDie;
     }

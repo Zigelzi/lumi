@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Mirror;
 
-public class PlayerTargeting : NetworkBehaviour
+public class Targeting : NetworkBehaviour
 {
     [SerializeField] LayerMask groundLayer;
     Camera mainCamera;

@@ -25,9 +25,9 @@ public class Spell : NetworkBehaviour
     [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        PlayerHealth health;
+        Health health;
 
-        if (IsEnemy(collision.collider) && collision.gameObject.TryGetComponent<PlayerHealth>(out health))
+        if (IsEnemy(collision.collider) && collision.gameObject.TryGetComponent<Health>(out health))
         {
             health.TakeDamage(damage);
             DestroySelf();

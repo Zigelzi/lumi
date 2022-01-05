@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Mirror;
 
-public class PlayerMovement : NetworkBehaviour
+public class Movement : NetworkBehaviour
 {
     [SerializeField] [Range(0, 50f)] float movementSpeed = 20f;
     [SerializeField] [Range(0, 50f)] float maxAcceleration = 20f;
