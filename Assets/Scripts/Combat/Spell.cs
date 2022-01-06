@@ -11,9 +11,35 @@ public class Spell : NetworkBehaviour
 
     Rigidbody spellRb;
 
+    #region Server
+
+    [ServerCallback]
     void Start()
     {
-        LaunchSpell();    
+        LaunchSpell();
+
+        GameManager.ServerOnGameOver += ServerHandleGameOver;
+    }
+
+    [ServerCallback]
+    void OnDestroy()
+    {
+        GameManager.ServerOnGameOver -= ServerHandleGameOver;
+    }
+
+    [Server]
+    void ServerHandleGameOver(LumiNetworkPlayer player)
+    {
+        DestroySelf();
+    }
+
+    [Server]
+    public void LaunchSpell()
+    {
+        spellRb = GetComponent<Rigidbody>();
+        if (spellRb == null) { return; }
+
+        spellRb.velocity = -transform.forward * launchForce;
     }
     public override void OnStartServer()
     {
@@ -34,20 +60,13 @@ public class Spell : NetworkBehaviour
         }
     }
 
-    public void LaunchSpell() 
-    {
-        spellRb = GetComponent<Rigidbody>();
-        if (spellRb == null) { return; }
-
-        spellRb.velocity = -transform.forward * launchForce;
-    }
-
     [Server]
     void DestroySelf()
     {
         NetworkServer.Destroy(gameObject);
     }
 
+    [Server]
     bool IsEnemy(Collider other)
     {
         NetworkIdentity identity;
@@ -68,5 +87,5 @@ public class Spell : NetworkBehaviour
             return false;
         }
     }
-    
+    #endregion
 }

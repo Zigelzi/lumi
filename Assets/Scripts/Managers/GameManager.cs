@@ -8,7 +8,7 @@ public class GameManager : NetworkBehaviour
 {
     [SerializeField] List<LumiNetworkPlayer> players;
 
-    public event Action<LumiNetworkPlayer> ServerOnGameOver;
+    public static event Action<LumiNetworkPlayer> ServerOnGameOver;
     public static event Action<string> ClientOnGameOver;
 
     #region Server
