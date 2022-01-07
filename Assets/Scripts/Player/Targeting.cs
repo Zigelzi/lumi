@@ -10,17 +10,40 @@ public class Targeting : NetworkBehaviour
     Camera mainCamera;
     Mouse mouse;
 
+    #region Client
+    [ClientCallback]
     void Start()
     {
         mainCamera = Camera.main;
         mouse = Mouse.current;
+
+        GameManager.ClientOnGameOver += ClientHandleGameOver;
     }
 
+    void OnDestroy()
+    {
+        GameManager.ClientOnGameOver -= ClientHandleGameOver;
+    }
+
+    [Client]
+    void ClientHandleGameOver(string winnerName)
+    {
+        DisableTargeting();
+    }
+
+    [Client]
+    void DisableTargeting()
+    {
+        enabled = false;
+    }
+
+    [ClientCallback]
     void Update()
     {
         FaceAtMousePosition();
     }
 
+    [Client]
     void FaceAtMousePosition()
     {
         if (!hasAuthority) { return; }
@@ -33,4 +56,5 @@ public class Targeting : NetworkBehaviour
             transform.LookAt(hit.point);
         }
     }
+    #endregion
 }

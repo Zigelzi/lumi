@@ -84,11 +84,6 @@ public class Casting : NetworkBehaviour
 
     void ClientHandleGameOver(string winnerName)
     {
-        DisableCasting();
-    }
-
-    void DisableCasting()
-    {
         casting.Disable();
     }
     #endregion

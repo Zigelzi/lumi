@@ -26,12 +26,21 @@ public class Movement : NetworkBehaviour
 
         movement = playerInputActions.Player.Movement;
         movement.Enable();
+
+        GameManager.ClientOnGameOver += ClientHandleGameOver;
     }
 
     [ClientCallback]
     void OnDestroy()
     {
-        movement.Disable();    
+        movement.Disable();
+
+        GameManager.ClientOnGameOver -= ClientHandleGameOver;
+    }
+
+    void ClientHandleGameOver(string winnerName)
+    {
+        movement.Disable();
     }
 
     [ClientCallback]
