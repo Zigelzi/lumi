@@ -57,6 +57,8 @@ public class Casting : NetworkBehaviour
         casting.performed += HandleSpellCast;
         casting.Enable();
 
+        GameManager.ClientOnGameOver += ClientHandleGameOver;
+
     }
 
     [ClientCallback]
@@ -78,6 +80,16 @@ public class Casting : NetworkBehaviour
             CmdCastSpell(hit.point);
         }
         
+    }
+
+    void ClientHandleGameOver(string winnerName)
+    {
+        DisableCasting();
+    }
+
+    void DisableCasting()
+    {
+        casting.Disable();
     }
     #endregion
 }
