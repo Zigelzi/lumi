@@ -23,7 +23,7 @@ public class LumiNetworkManager : NetworkManager
     public override void OnStopServer()
     {
         base.OnStopServer();
-
+        
         LumiNetworkPlayer.OnServerPlayerDefeat -= ServerHandlePlayerDefeat;
     }
 
@@ -73,6 +73,11 @@ public class LumiNetworkManager : NetworkManager
     void ServerHandlePlayerDefeat(LumiNetworkPlayer player)
     {
         players.Remove(player);
+    }
+
+    public void StartGame()
+    {
+        ServerChangeScene(mapName);
     }
 
     #endregion

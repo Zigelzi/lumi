@@ -41,5 +41,13 @@ public class LumiNetworkPlayer : NetworkBehaviour
     {
         playerName = newName;
     }
+
+    [Command]
+    public void CmdStartGame()
+    {
+        LumiNetworkManager networkManager = (LumiNetworkManager)NetworkManager.singleton;
+
+        networkManager.StartGame();
+    }
     #endregion
 }
