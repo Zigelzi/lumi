@@ -178,3 +178,6 @@ MonoBehaviour:
   damage: 10
   launchForce: 15
   lifetime: 3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256

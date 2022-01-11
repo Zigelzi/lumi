@@ -8,6 +8,7 @@ public class Spell : NetworkBehaviour
     [SerializeField] int damage = 10;
     [SerializeField] int launchForce = 1;
     [SerializeField] int lifetime = 3;
+    [SerializeField] LayerMask groundLayer;
 
     Rigidbody spellRb;
 
@@ -58,6 +59,13 @@ public class Spell : NetworkBehaviour
             health.TakeDamage(damage);
             DestroySelf();
         }
+
+        if (!IsPlayers(collision.collider) && !IsGround(collision.collider))
+        {
+            Debug.Log("Spell hit something that isn't players and ground");
+            
+            DestroySelf();
+        }
     }
 
     [Server]
@@ -84,6 +92,41 @@ public class Spell : NetworkBehaviour
         }
         else
         {
+            return false;
+        }
+    }
+
+    [Server]
+    bool IsPlayers(Collider other)
+    {
+        NetworkIdentity identity;
+
+        if (other.TryGetComponent<NetworkIdentity>(out identity))
+        {
+            if (identity.connectionToClient == connectionToClient)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    [Server]
+    bool IsGround(Collider other)
+    {
+        if (groundLayer == (groundLayer | (1 << other.gameObject.layer)))
+        {
+            return true;
+        }
+        else 
+        { 
             return false;
         }
     }
