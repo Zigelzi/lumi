@@ -9,7 +9,7 @@ Multiplayer arena game made with Unity and Mirror.
 - [x] Win condition (Defeat enemy)
 - [x] Camera positioning
 - [x] Rotating player towards the mouse
-- [ ] Fix client projectiles not being launched correctly
+- [x] Fix client projectiles not being launched correctly
 - [ ] Add CC spell
 - [ ] Design game arena
 - [ ] Tune spell casting
