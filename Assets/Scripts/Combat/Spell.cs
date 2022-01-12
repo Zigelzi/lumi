@@ -13,8 +13,6 @@ public class Spell : NetworkBehaviour
     Rigidbody spellRb;
 
     #region Server
-
-    [ServerCallback]
     void Start()
     {
         LaunchSpell();
@@ -22,7 +20,6 @@ public class Spell : NetworkBehaviour
         GameManager.ServerOnGameOver += ServerHandleGameOver;
     }
 
-    [ServerCallback]
     void OnDestroy()
     {
         GameManager.ServerOnGameOver -= ServerHandleGameOver;
@@ -34,13 +31,15 @@ public class Spell : NetworkBehaviour
         DestroySelf();
     }
 
-    [Server]
     public void LaunchSpell()
     {
+        Debug.Log("Launched spell on server");
         spellRb = GetComponent<Rigidbody>();
         if (spellRb == null) { return; }
 
         spellRb.velocity = -transform.forward * launchForce;
+
+        Debug.Log($"Spell velocity set to {spellRb.velocity}");
     }
     public override void OnStartServer()
     {
