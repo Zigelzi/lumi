@@ -7,11 +7,17 @@ using Mirror;
 public class LumiNetworkPlayer : NetworkBehaviour
 {
     Health health;
+
+    [SyncVar]
+    Color playerColor; // TODO: Sync the color to client
     string playerName;
+
+    [SerializeField] GameObject playerModel;
 
     public static event Action<LumiNetworkPlayer> OnServerPlayerDefeat;
 
     public string PlayerName { get { return playerName; } }
+    public Color PlayerColor { get { return playerColor; } }
 
     #region Server
     public override void OnStartServer()
@@ -40,6 +46,23 @@ public class LumiNetworkPlayer : NetworkBehaviour
     public void SetPlayerName(string newName)
     {
         playerName = newName;
+    }
+
+    [Server]
+    public void SetPlayerColor()
+    {
+        float red = UnityEngine.Random.Range(0, 1f);
+        float green = UnityEngine.Random.Range(0, 1f);
+        float blue = UnityEngine.Random.Range(0, 1f);
+
+        Color newColor = new Color(red, green, blue);
+
+        foreach (Transform child in playerModel.transform)
+        {
+            Renderer renderer = child.GetComponent<Renderer>();
+            renderer.material.color = newColor;
+        }
+        
     }
 
     [Command]

@@ -33,13 +33,10 @@ public class Spell : NetworkBehaviour
 
     public void LaunchSpell()
     {
-        Debug.Log("Launched spell on server");
         spellRb = GetComponent<Rigidbody>();
         if (spellRb == null) { return; }
 
         spellRb.velocity = -transform.forward * launchForce;
-
-        Debug.Log($"Spell velocity set to {spellRb.velocity}");
     }
     public override void OnStartServer()
     {
@@ -60,9 +57,7 @@ public class Spell : NetworkBehaviour
         }
 
         if (!IsPlayers(collision.collider) && !IsGround(collision.collider))
-        {
-            Debug.Log("Spell hit something that isn't players and ground");
-            
+        {            
             DestroySelf();
         }
     }

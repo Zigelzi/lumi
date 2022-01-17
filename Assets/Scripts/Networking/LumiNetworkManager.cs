@@ -33,6 +33,7 @@ public class LumiNetworkManager : NetworkManager
 
         LumiNetworkPlayer player = conn.identity.GetComponent<LumiNetworkPlayer>();
         player.SetPlayerName($"Player {players.Count + 1}"); // Initial player count starts from 0
+        player.SetPlayerColor();
 
         players.Add(player);
         
