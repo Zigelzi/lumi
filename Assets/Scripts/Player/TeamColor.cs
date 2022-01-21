@@ -5,7 +5,7 @@ using Mirror;
 
 public class TeamColor : NetworkBehaviour
 {
-    [SerializeField] GameObject playerModel;
+    [SerializeField] GameObject targetObject;
     [SyncVar(hook = nameof(HandlePlayerColorUpdated)) ]
     Color playerColor;
 
@@ -15,7 +15,11 @@ public class TeamColor : NetworkBehaviour
         base.OnStartServer();
 
         LumiNetworkPlayer player = connectionToClient.identity.GetComponent<LumiNetworkPlayer>();
+        playerColor = player.PlayerColor;
         player.ServerOnPlayerColorChange += ClientHandleColorChange;
+        
+        Debug.Log("TeamColor ran");
+        Debug.Log(targetObject);
     }
 
     public override void OnStopServer()
@@ -30,9 +34,28 @@ public class TeamColor : NetworkBehaviour
     #region Client
     void HandlePlayerColorUpdated(Color oldColor, Color newColor)
     {
-        if (playerModel == null) { return; }
+        if (targetObject == null) { return; }
 
-        foreach (Transform child in playerModel.transform)
+        if (targetObject.transform.childCount == 0)
+        {
+            SetSingleObjectColor(newColor);
+        }
+        else
+        {
+            SetMultipleObjectColor(newColor);
+        }
+        
+    }
+
+    void SetSingleObjectColor(Color newColor)
+    {
+        Renderer renderer = targetObject.transform.GetComponent<Renderer>();
+        renderer.material.color = newColor;
+    }
+
+    void SetMultipleObjectColor(Color newColor)
+    {
+        foreach (Transform child in targetObject.transform)
         {
             Renderer renderer = child.GetComponent<Renderer>();
             renderer.material.color = newColor;

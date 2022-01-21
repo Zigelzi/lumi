@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3553825374414652934}
   - component: {fileID: 4266493457629375920}
   - component: {fileID: 6782733062011717500}
+  - component: {fileID: 4134453768156227098}
   - component: {fileID: 1849716744928958076}
   m_Layer: 0
   m_Name: Projectile
@@ -161,6 +162,21 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &4134453768156227098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3708704091446871398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8a0b7c327afa84a81976a99c6f66f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  targetObject: {fileID: 3708704091446871398}
 --- !u!114 &1849716744928958076
 MonoBehaviour:
   m_ObjectHideFlags: 0
