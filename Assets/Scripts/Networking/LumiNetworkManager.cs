@@ -10,9 +10,11 @@ public class LumiNetworkManager : NetworkManager
     [SerializeField] List<LumiNetworkPlayer> players = new List<LumiNetworkPlayer>();
     [SerializeField] GameManager gameManagerPrefab;
 
+    bool isGameInProgress = false;
     string mapName = "Scene_Arena";
 
     public List<LumiNetworkPlayer> Players { get { return players; } }
+    public bool IsGameInProgress { get { return isGameInProgress; } }
 
     // Avoid overriding built in method OnClientConnect by reversing the naming scheme
     public static event Action ClientOnConnected;
@@ -23,14 +25,18 @@ public class LumiNetworkManager : NetworkManager
     {
         base.OnStartServer();
 
-        LumiNetworkPlayer.OnServerPlayerDefeat += ServerHandlePlayerDefeat;
+        LumiNetworkPlayer.ServerOnPlayerDefeat += ServerHandlePlayerDefeat;
     }
 
     public override void OnStopServer()
     {
         base.OnStopServer();
-        
-        LumiNetworkPlayer.OnServerPlayerDefeat -= ServerHandlePlayerDefeat;
+
+        players.Clear();
+
+        isGameInProgress = false;
+
+        LumiNetworkPlayer.ServerOnPlayerDefeat -= ServerHandlePlayerDefeat;
     }
 
     public override void OnServerAddPlayer(NetworkConnection conn)
@@ -43,16 +49,30 @@ public class LumiNetworkManager : NetworkManager
 
         players.Add(player);
 
+        if (players.Count < 2)
+        {
+            player.SetPartyOwner(true);
+        }
+    }
+
+    public override void OnServerConnect(NetworkConnection conn)
+    {
+        base.OnServerConnect(conn);
+        if (!isGameInProgress) { return; }
+
+        conn.Disconnect();
     }
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        base.OnServerDisconnect(conn);
+        
 
         LumiNetworkPlayer disconnectedPlayer = conn.identity.GetComponent<LumiNetworkPlayer>();
         players.Remove(disconnectedPlayer);
         
         ClientOnDisconnected?.Invoke();
+
+        base.OnServerDisconnect(conn);
     }
 
     public override void OnServerSceneChanged(string newSceneName)
@@ -61,23 +81,10 @@ public class LumiNetworkManager : NetworkManager
 
         if (IsMapScene())
         {
+            
             GameManager instantiatedGameManager = Instantiate(gameManagerPrefab);
             NetworkServer.Spawn(instantiatedGameManager.gameObject);
         }
-    }
-
-    public override void OnClientConnect(NetworkConnection conn)
-    {
-        base.OnClientConnect(conn);
-
-        ClientOnConnected?.Invoke();
-    }
-
-    public override void OnClientDisconnect(NetworkConnection conn)
-    {
-        base.OnClientDisconnect(conn);
-
-        ClientOnDisconnected?.Invoke();
     }
 
     [Server]
@@ -101,7 +108,36 @@ public class LumiNetworkManager : NetworkManager
 
     public void StartGame()
     {
-        ServerChangeScene(mapName);
+        if (players.Count >= 2)
+        {
+            ServerChangeScene(mapName);
+            isGameInProgress = true;
+        }
+        
+    }
+
+    #endregion
+
+    #region Client
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        base.OnClientConnect(conn);
+
+        ClientOnConnected?.Invoke();
+    }
+
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        base.OnClientDisconnect(conn);
+
+        ClientOnDisconnected?.Invoke();
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        players.Clear();
     }
 
     #endregion
