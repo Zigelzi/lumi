@@ -17,9 +17,6 @@ public class TeamColor : NetworkBehaviour
         LumiNetworkPlayer player = connectionToClient.identity.GetComponent<LumiNetworkPlayer>();
         playerColor = player.PlayerColor;
         player.ServerOnPlayerColorChange += ClientHandleColorChange;
-        
-        Debug.Log("TeamColor ran");
-        Debug.Log(targetObject);
     }
 
     public override void OnStopServer()
