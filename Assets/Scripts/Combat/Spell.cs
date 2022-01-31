@@ -5,12 +5,16 @@ using Mirror;
 
 public class Spell : NetworkBehaviour
 {
+    [SerializeField] string spellName;
+    [SerializeField] int id;
     [SerializeField] int damage = 10;
     [SerializeField] int launchForce = 1;
     [SerializeField] int lifetime = 3;
     [SerializeField] LayerMask groundLayer;
 
     Rigidbody spellRb;
+
+    public int Id { get { return id; } }
 
     #region Server
     void Start()

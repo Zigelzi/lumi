@@ -16,15 +16,6 @@ public class TeamColor : NetworkBehaviour
 
         LumiNetworkPlayer player = connectionToClient.identity.GetComponent<LumiNetworkPlayer>();
         playerColor = player.PlayerColor;
-        player.ServerOnPlayerColorChange += ClientHandleColorChange;
-    }
-
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-
-        LumiNetworkPlayer player = connectionToClient.identity.GetComponent<LumiNetworkPlayer>();
-        player.ServerOnPlayerColorChange -= ClientHandleColorChange;
     }
     #endregion
 
@@ -57,11 +48,6 @@ public class TeamColor : NetworkBehaviour
             Renderer renderer = child.GetComponent<Renderer>();
             renderer.material.color = newColor;
         }
-    }
-
-    void ClientHandleColorChange(Color newColor)
-    {
-        playerColor = newColor;
     }
     
     #endregion

@@ -10,11 +10,9 @@ public class LumiNetworkPlayer : NetworkBehaviour
     [SyncVar(hook = nameof(AuthorityPartyOwnerUpdated)) ]
     bool isPartyOwner = false;
 
-    Health health;
     Color playerColor;
     string playerName;
 
-    public static event Action<LumiNetworkPlayer> ServerOnPlayerDefeat;
     public event Action<Color> ServerOnPlayerColorChange;
     public static event Action<bool> AuthorityOnPartyOwnerUpdated;
 
@@ -26,23 +24,12 @@ public class LumiNetworkPlayer : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-
-        health = GetComponent<Health>();
-
-        health.ServerOnDie += HandleServerOnDie;
     }
 
     public override void OnStopServer()
     {
         base.OnStopServer();
 
-        health.ServerOnDie -= HandleServerOnDie;
-    }
-
-    
-    void HandleServerOnDie()
-    {
-        ServerOnPlayerDefeat?.Invoke(this);
     }
 
     [Server]
@@ -61,7 +48,6 @@ public class LumiNetworkPlayer : NetworkBehaviour
         Color newColor = new Color(red, green, blue);
 
         playerColor = newColor;
-        ServerOnPlayerColorChange.Invoke(playerColor);
     }
 
     [Server]

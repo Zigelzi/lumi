@@ -13,7 +13,7 @@ public class Health : NetworkBehaviour
 
     public int MaxHealth { get { return maxHealth; } }
 
-    public event Action ServerOnDie;
+    public static event Action<LumiNetworkPlayer> ServerOnPlayerDefeat;
     public event Action<int, int> ClientOnHealthUpdate;
 
     #region Server
@@ -41,7 +41,8 @@ public class Health : NetworkBehaviour
     [Server]
     void Die()
     {
-        ServerOnDie?.Invoke();
+        LumiNetworkPlayer player = connectionToClient.identity.GetComponent<LumiNetworkPlayer>();
+        ServerOnPlayerDefeat?.Invoke(player);
     }
 
     #endregion

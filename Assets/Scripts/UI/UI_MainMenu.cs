@@ -32,6 +32,7 @@ public class UI_MainMenu : MonoBehaviour
         lobbyMenu = lobbyMenuParent.transform.Find(lobbyMenuName).gameObject;
         joinMenu = transform.Find(joinMenuName).gameObject;
 
+
         mainMenu.SetActive(true);
         currentMenu = mainMenu;
         previousMenu = null;

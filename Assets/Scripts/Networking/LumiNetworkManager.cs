@@ -7,8 +7,10 @@ using System;
 
 public class LumiNetworkManager : NetworkManager
 {
+    [Header("Lumi customisations")]
     [SerializeField] List<LumiNetworkPlayer> players = new List<LumiNetworkPlayer>();
     [SerializeField] GameManager gameManagerPrefab;
+    [SerializeField] GameObject playerUnitPrefab;
 
     bool isGameInProgress = false;
     string mapName = "Scene_Arena";
@@ -24,8 +26,6 @@ public class LumiNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
-
-        LumiNetworkPlayer.ServerOnPlayerDefeat += ServerHandlePlayerDefeat;
     }
 
     public override void OnStopServer()
@@ -35,8 +35,6 @@ public class LumiNetworkManager : NetworkManager
         players.Clear();
 
         isGameInProgress = false;
-
-        LumiNetworkPlayer.ServerOnPlayerDefeat -= ServerHandlePlayerDefeat;
     }
 
     public override void OnServerAddPlayer(NetworkConnection conn)
@@ -44,6 +42,7 @@ public class LumiNetworkManager : NetworkManager
         base.OnServerAddPlayer(conn);
 
         LumiNetworkPlayer player = conn.identity.GetComponent<LumiNetworkPlayer>();
+        Debug.Log(player);
         player.SetPlayerName($"Player {players.Count + 1}"); // Initial player count starts from 0
         player.SetPlayerColor();
 
@@ -65,8 +64,6 @@ public class LumiNetworkManager : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        
-
         LumiNetworkPlayer disconnectedPlayer = conn.identity.GetComponent<LumiNetworkPlayer>();
         players.Remove(disconnectedPlayer);
         
@@ -81,9 +78,10 @@ public class LumiNetworkManager : NetworkManager
 
         if (IsMapScene())
         {
-            
             GameManager instantiatedGameManager = Instantiate(gameManagerPrefab);
             NetworkServer.Spawn(instantiatedGameManager.gameObject);
+            
+            SpawnPlayerUnits();
         }
     }
 
@@ -101,9 +99,17 @@ public class LumiNetworkManager : NetworkManager
     }
 
     [Server]
-    void ServerHandlePlayerDefeat(LumiNetworkPlayer player)
+    void SpawnPlayerUnits()
     {
-        players.Remove(player);
+        foreach (LumiNetworkPlayer player in players)
+        {
+            GameObject playerUnitInstance = Instantiate(
+                playerUnitPrefab,
+                GetStartPosition().position,
+                Quaternion.identity
+                );
+            NetworkServer.Spawn(playerUnitInstance, player.connectionToClient);
+        }
     }
 
     public void StartGame()

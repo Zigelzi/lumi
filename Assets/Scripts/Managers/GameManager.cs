@@ -20,14 +20,14 @@ public class GameManager : NetworkBehaviour
 
         players = networkManager.Players;
 
-        LumiNetworkPlayer.ServerOnPlayerDefeat += ServerHandlePlayerDefeat;
+        Health.ServerOnPlayerDefeat += ServerHandlePlayerDefeat;
     }
 
     public override void OnStopServer()
     {
         base.OnStopServer();
 
-        LumiNetworkPlayer.ServerOnPlayerDefeat -= ServerHandlePlayerDefeat;
+        Health.ServerOnPlayerDefeat -= ServerHandlePlayerDefeat;
     }
 
     [Server]
