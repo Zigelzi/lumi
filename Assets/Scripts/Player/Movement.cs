@@ -11,7 +11,8 @@ public class Movement : NetworkBehaviour
 
     PlayerInputActions playerInputActions;
     InputAction movement;
-    Rigidbody playerRb;
+
+    CharacterController characterController;
 
     #region Server
 
@@ -22,10 +23,11 @@ public class Movement : NetworkBehaviour
     void Start()
     {
         playerInputActions = new PlayerInputActions();
-        playerRb = GetComponent<Rigidbody>();
 
         movement = playerInputActions.Player.Movement;
         movement.Enable();
+
+        characterController = GetComponent<CharacterController>();
 
         GameManager.ClientOnGameOver += ClientHandleGameOver;
     }
@@ -43,7 +45,6 @@ public class Movement : NetworkBehaviour
         movement.Disable();
     }
 
-    [ClientCallback]
     void FixedUpdate()
     {
         HandleMovement();
@@ -52,19 +53,16 @@ public class Movement : NetworkBehaviour
     void HandleMovement()
     {
         if (!hasAuthority) { return; }
-        
-        Vector2 moveDirection = movement.ReadValue<Vector2>();
+        Vector2 moveInput = movement.ReadValue<Vector2>();
 
-        if (moveDirection.magnitude != 0)
+        if (moveInput.magnitude != 0)
         {
-            float maxVelocityChange = maxAcceleration * Time.deltaTime;
-            Vector3 playerVelocity = playerRb.velocity;
-            Vector3 desiredVelocity = moveDirection * movementSpeed;
+ 
+            Vector3 movementDirection = new Vector3();
+            movementDirection.x = moveInput.x * Time.deltaTime * movementSpeed;
+            movementDirection.z = moveInput.y * Time.deltaTime * movementSpeed;
 
-            playerVelocity.x = Mathf.MoveTowards(playerVelocity.x, desiredVelocity.x, maxVelocityChange);
-            playerVelocity.z = Mathf.MoveTowards(playerVelocity.z, desiredVelocity.y, maxVelocityChange);
-
-            playerRb.velocity = playerVelocity;
+            characterController.Move(movementDirection);
         }
     }
 

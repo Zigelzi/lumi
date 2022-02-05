@@ -13,7 +13,6 @@ public class LumiNetworkPlayer : NetworkBehaviour
     Color playerColor;
     string playerName;
 
-    public event Action<Color> ServerOnPlayerColorChange;
     public static event Action<bool> AuthorityOnPartyOwnerUpdated;
 
     public bool IsPartyOwner { get { return IsPartyOwner; } }
