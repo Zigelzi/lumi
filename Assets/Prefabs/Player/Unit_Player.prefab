@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 1958486426194181469}
   - component: {fileID: 4434090294310688634}
   - component: {fileID: 1021886356968931247}
+  - component: {fileID: 4582372726858067152}
   - component: {fileID: 3640180549264113399}
   - component: {fileID: 449901971715660671}
   - component: {fileID: 5720736017336502675}
   - component: {fileID: 577332140955542605}
   - component: {fileID: 3294591947499445920}
-  - component: {fileID: 4582372726858067152}
   m_Layer: 0
   m_Name: Unit_Player
   m_TagString: Untagged
@@ -88,6 +88,35 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 4a38d9d19e3809d438d40954fd19f9a8
   hasSpawned: 0
+--- !u!114 &4582372726858067152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5229379171661324535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!114 &3640180549264113399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,35 +201,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   targetObject: {fileID: 7089797694911187040}
---- !u!114 &4582372726858067152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5229379171661324535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 0
-  sendInterval: 0.05
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7089797694559227865
 GameObject:
   m_ObjectHideFlags: 0

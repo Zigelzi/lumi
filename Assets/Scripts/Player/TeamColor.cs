@@ -6,8 +6,10 @@ using Mirror;
 public class TeamColor : NetworkBehaviour
 {
     [SerializeField] GameObject targetObject;
+    
+    [SerializeField]
     [SyncVar(hook = nameof(HandlePlayerColorUpdated)) ]
-    Color playerColor;
+    Color playerColor = new Color();
 
     #region Server
     public override void OnStartServer()

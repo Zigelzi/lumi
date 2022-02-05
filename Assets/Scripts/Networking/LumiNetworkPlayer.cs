@@ -24,6 +24,8 @@ public class LumiNetworkPlayer : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnStopServer()
@@ -79,6 +81,8 @@ public class LumiNetworkPlayer : NetworkBehaviour
 
         LumiNetworkManager manager = (LumiNetworkManager)NetworkManager.singleton;
         manager.Players.Add(this);
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnStopClient()

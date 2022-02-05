@@ -23,11 +23,6 @@ public class LumiNetworkManager : NetworkManager
     public static event Action ClientOnDisconnected;
 
     #region Server
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-    }
-
     public override void OnStopServer()
     {
         base.OnStopServer();
@@ -42,7 +37,6 @@ public class LumiNetworkManager : NetworkManager
         base.OnServerAddPlayer(conn);
 
         LumiNetworkPlayer player = conn.identity.GetComponent<LumiNetworkPlayer>();
-        Debug.Log(player);
         player.SetPlayerName($"Player {players.Count + 1}"); // Initial player count starts from 0
         player.SetPlayerColor();
 
