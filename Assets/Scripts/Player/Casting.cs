@@ -22,14 +22,17 @@ public class Casting : NetworkBehaviour
     [Command]
     void CmdCastSpell(Vector3 castPosition)
     {
-        Vector3 spellDirection = transform.position - castPosition;
+        if (CanCastAgain())
+        {
+            Vector3 spellDirection = transform.position - castPosition;
 
-        Quaternion spellRotation = Quaternion.LookRotation(spellDirection);
-        
-        GameObject spellInstance = Instantiate(spellPrefab, spellSpawnpoint.position, spellRotation);
-        NetworkServer.Spawn(spellInstance, connectionToClient);
+            Quaternion spellRotation = Quaternion.LookRotation(spellDirection);
 
-        previousSpellCastTime = Time.time;
+            GameObject spellInstance = Instantiate(spellPrefab, spellSpawnpoint.position, spellRotation);
+            NetworkServer.Spawn(spellInstance, connectionToClient);
+
+            previousSpellCastTime = Time.time;
+        }  
     }
 
     bool CanCastAgain()
@@ -75,7 +78,7 @@ public class Casting : NetworkBehaviour
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(mouse.position.ReadValue());
 
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer) && CanCastAgain())
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
         {
             CmdCastSpell(hit.point);
         }

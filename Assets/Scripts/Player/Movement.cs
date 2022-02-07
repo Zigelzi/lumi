@@ -63,7 +63,13 @@ public class Movement : NetworkBehaviour
             movementDirection.z = moveInput.y * Time.deltaTime * movementSpeed;
 
             characterController.Move(movementDirection);
+            ConstrainPosition();
         }
+    }
+
+    void ConstrainPosition()
+    {
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
 
     #endregion
