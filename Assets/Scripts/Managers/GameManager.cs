@@ -33,6 +33,8 @@ public class GameManager : NetworkBehaviour
     [Server]
     void ServerHandlePlayerDefeat(LumiNetworkPlayer player)
     {
+        players.Remove(player);
+
         if (players.Count <= 1)
         {
             string winnerName = players[0].PlayerName;
