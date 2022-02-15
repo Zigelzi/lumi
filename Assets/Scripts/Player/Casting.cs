@@ -7,6 +7,8 @@ using Mirror;
 public class Casting : NetworkBehaviour
 {
     [SerializeField] Transform spellSpawnpoint;
+    [SerializeField] List<Spell> spells;
+    [SerializeField] Spell selectedSpell;
     [SerializeField] GameObject spellPrefab;
     [SerializeField] float castSpeed = 1f;
     [SerializeField] LayerMask groundLayer;
@@ -16,7 +18,9 @@ public class Casting : NetworkBehaviour
 
     float previousSpellCastTime;
     PlayerInputActions playerInputActions;
-    InputAction casting;
+    InputAction castPrimarySpell;
+    InputAction castSecondarySpell;
+    InputAction castThirdSpell;
 
     #region Server
     [Command]
@@ -55,10 +59,17 @@ public class Casting : NetworkBehaviour
         mainCamera = Camera.main;
         mouse = Mouse.current;
         playerInputActions = new PlayerInputActions();
-        casting = playerInputActions.Player.Casting;
+        castPrimarySpell = playerInputActions.Player.CastPrimarySpell;
+        castSecondarySpell = playerInputActions.Player.CastSecondarySpell;
+        castThirdSpell = playerInputActions.Player.CastThirdSpell;
 
-        casting.performed += HandleSpellCast;
-        casting.Enable();
+        castPrimarySpell.performed += HandleSpellCast;
+        castSecondarySpell.performed += HandleSpellCast;
+        castThirdSpell.performed += HandleSpellCast;
+
+        castPrimarySpell.Enable();
+        castSecondarySpell.Enable();
+        castThirdSpell.Enable();
 
         GameManager.ClientOnGameOver += ClientHandleGameOver;
 
@@ -67,8 +78,13 @@ public class Casting : NetworkBehaviour
     [ClientCallback]
     void OnDestroy()
     {
-        casting.performed -= HandleSpellCast;
-        casting.Disable();
+        castPrimarySpell.performed -= HandleSpellCast;
+        castSecondarySpell.performed -= HandleSpellCast;
+        castThirdSpell.performed -= HandleSpellCast;
+
+        castPrimarySpell.Disable();
+        castSecondarySpell.Disable();
+        castThirdSpell.Disable();
     }
 
     void HandleSpellCast(InputAction.CallbackContext ctx)
@@ -77,6 +93,8 @@ public class Casting : NetworkBehaviour
 
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(mouse.position.ReadValue());
+
+        Debug.Log(ctx.action);
 
         if(Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
         {
@@ -87,7 +105,9 @@ public class Casting : NetworkBehaviour
 
     void ClientHandleGameOver(string winnerName)
     {
-        casting.Disable();
+        castPrimarySpell.Disable();
+        castSecondarySpell.Disable();
+        castThirdSpell.Disable();
     }
     #endregion
 }

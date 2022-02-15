@@ -14,37 +14,39 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "Casting",
+                    "name": "CastPrimarySpell",
                     "type": "Button",
-                    "id": "b51a501d-bb3d-4b0d-b142-4fae4e5f1709",
+                    "id": "be7704a7-8150-4b95-850c-1465c83187fe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Deflect",
+                    "type": "Button",
+                    "id": "37ab2cbf-46bd-483e-8c5f-8e6343a9b886",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CastSecondarySpell",
+                    "type": "Button",
+                    "id": "0b0cb02f-4f58-44bc-9015-da9e191c80c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CastThirdSpell",
+                    "type": "Button",
+                    "id": "0694cc9d-1e0b-4c84-aaee-0a5b0f14b83a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "e418da5c-b58b-465f-bd6f-5474185a8b35",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Casting",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d80aaf30-9e99-4af7-a8ec-e3c0af5a8876",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Casting",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "WASD",
                     "id": "097aee83-80b6-42f1-a41a-0a65e0e1bdce",
@@ -108,6 +110,94 @@
                     "processors": "",
                     "groups": "",
                     "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2544a189-6e57-4a90-b1c3-39154c3f0691",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CastPrimarySpell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61243852-fd09-44a9-a15e-0ee904f3274d",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CastPrimarySpell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8b4885e-c68a-449c-b69e-08a6673201e4",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CastSecondarySpell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c680fc1-86e8-4724-a32f-5e0ebb38284d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CastSecondarySpell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c2910c37-d52e-4518-a540-ca3bc8b8a6f3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CastThirdSpell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3b7b6297-8ae6-4684-b0d8-8385ee529769",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CastThirdSpell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6233ad7a-2348-4b5e-b217-05af2970cb22",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Deflect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8825cdbc-64d9-4683-85c3-5fa77e62800c",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Deflect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
