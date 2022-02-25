@@ -8,7 +8,7 @@ public class Spell : NetworkBehaviour
     [SerializeField] string spellName;
     [SerializeField] int id;
     [SerializeField] int damage = 10;
-    [SerializeField] int launchForce = 1;
+    [SerializeField] int projectileSpeed = 1;
     [SerializeField] int lifetime = 3;
     [SerializeField] LayerMask groundLayer;
 
@@ -19,9 +19,13 @@ public class Spell : NetworkBehaviour
     #region Server
     void Start()
     {
-        LaunchSpell();
-
         GameManager.ServerOnGameOver += ServerHandleGameOver;
+    }
+
+    [ServerCallback]
+    void Update()
+    {
+        MoveSpell();
     }
 
     void OnDestroy()
@@ -35,12 +39,9 @@ public class Spell : NetworkBehaviour
         DestroySelf();
     }
 
-    public void LaunchSpell()
+    public void MoveSpell()
     {
-        spellRb = GetComponent<Rigidbody>();
-        if (spellRb == null) { return; }
-
-        spellRb.velocity = -transform.forward * launchForce;
+        transform.Translate(Vector3.forward * Time.deltaTime * projectileSpeed);
     }
     public override void OnStartServer()
     {
