@@ -41,7 +41,7 @@ public class Spell : NetworkBehaviour
 
     public void MoveSpell()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * projectileSpeed);
+        transform.Translate(-Vector3.forward * Time.deltaTime * projectileSpeed);
     }
     public override void OnStartServer()
     {
@@ -49,11 +49,13 @@ public class Spell : NetworkBehaviour
 
         Invoke(nameof(DestroySelf), lifetime);
     }
-
     [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         Health health;
+
+        Debug.Log($"Collided with {collision.gameObject}");
+        Debug.Log($"Collision is {collision}");
 
         if (IsEnemy(collision.collider) && collision.gameObject.TryGetComponent<Health>(out health))
         {
